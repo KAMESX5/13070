@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: pokemon-app
+data:
+  POSTGRES_DB: pokemon_db
+  POSTGRES_USER: postgres
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-secret
+  namespace: pokemon-app
+type: Opaque
+stringData:
+  POSTGRES_PASSWORD: pokemon123

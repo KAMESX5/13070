@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  namespace: pokemon-app
+data:
+  DB_HOST: postgres-service
+  DB_PORT: "5432"
+  DB_NAME: pokemon_db
+  DB_USER: postgres
+  PORT: "4000"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backend-secret
+  namespace: pokemon-app
+type: Opaque
+stringData:
+  DB_PASSWORD: pokemon123
