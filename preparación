@@ -1,0 +1,131 @@
+🧱 Preguntas sobre entendimiento de la solución (nivel profesor)
+
+Explícame el objetivo central del sistema en una sola frase técnica.
+(No quiero una frase general, quiero una descripción técnica del propósito real del sistema).
+
+¿Cuál fue el problema de infraestructura que este proyecto buscaba resolver?
+
+¿Qué fallaba en el escenario “antes” del sistema?
+
+¿Qué cambió con esta solución?
+
+Descríbeme el flujo completo del sistema desde el momento en que se despliega hasta que está operativo.
+
+¿Qué componentes de infraestructura intervienen?
+
+Redes
+
+Servidores
+
+Contenedores (si aplica)
+
+Balanceadores / servicios
+
+¿Qué pasaría si este sistema se cae completamente?
+
+¿Existe plan de recuperación?
+
+¿Qué se pierde?
+
+¿Qué se preserva?
+
+¿Cómo garantizas disponibilidad y tolerancia a fallos?
+
+Replicación
+
+Backups
+
+Monitoreo
+
+🧑‍💻 Preguntas de arquitectura y código
+
+Explícame la estructura del proyecto sin abrirlo.
+
+Carpetas
+
+Archivos clave
+
+Separación por capas.
+
+¿Qué lenguaje(s) de programación utilizaste y por qué eran los más adecuados para este proyecto?
+
+Descríbeme la clase/módulo más importante del proyecto.
+
+¿Cuál es su responsabilidad?
+
+¿Qué datos maneja?
+
+¿Qué decisiones toma?
+
+Muéstrame una función crítica y respóndeme:
+
+¿Qué hace exactamente?
+
+¿Qué recibe?
+
+¿Qué retorna?
+
+¿Qué podría salir mal ahí?
+
+¿Cómo manejas los errores en el núcleo del sistema?
+
+¿Qué tipo de excepciones controlas?
+
+¿Qué pasa si no se pueden recuperar?
+
+🔍 Preguntas sobre infraestructura (muy enfocadas al documento)
+
+Explícame el diagrama de infraestructura sin mostrarlo.
+
+¿Dónde están los puntos de fallo?
+
+¿Dónde están los cuellos de botella?
+
+¿Cuál es el rol de cada nodo o servidor descrito en el documento?
+
+¿Qué decisiones de diseño tomaste para la red (subredes, puertos, reglas)?
+
+¿Cómo se separan los entornos (desarrollo, pruebas, producción)?
+Si no se separan, ¿por qué?
+
+🔒 Seguridad y confiabilidad
+
+¿Dónde están almacenados los secretos del sistema?
+
+Claves
+
+Tokens
+
+Variables de entorno
+
+¿Cómo evitarías que una mala configuración de infraestructura exponga el sistema?
+
+¿Qué parte consideras más vulnerable del sistema y por qué?
+
+📊 Evaluación realista (tipo sustentación)
+
+¿Qué parte del proyecto fue más difícil de implementar? ¿Por qué?
+
+¿Qué parte del proyecto consideras que está incompleta o es mejorable?
+
+Si hoy un equipo nuevo tomara este proyecto, ¿qué les costaría más entender?
+
+¿Qué tan automatizado está el despliegue? ¿Qué pasos siguen siendo manuales?
+
+🧠 Preguntas para medir dominio real
+
+Explícame cómo fluye la información entre los componentes del sistema paso a paso.
+
+¿Qué pasaría si cambiamos una parte crítica de la infraestructura?
+(Ej: cambiar tipo de servidor, red, protocolo, etc.)
+
+🎯 Conclusión como profesor
+
+Estas preguntas están diseñadas para detectar:
+
+✅ Dominio real del proyecto
+✅ Comprensión profunda de infraestructura y código
+✅ Capacidad de análisis
+✅ Capacidad de autocrítica técnica
+
+Si quieres, también puedo prepararte una rúbrica con puntajes para calificar las respuestas como si fueras el profesor oficial del proyecto.
