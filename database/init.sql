@@ -1,0 +1,65 @@
+-- ============================================
+-- SCRIPT DE INICIALIZACIÓN DE BASE DE DATOS
+-- Proyecto: Aplicación Web Pokémon
+-- ============================================
+
+-- La base de datos ya se crea en docker-compose
+-- Este script solo crea la tabla
+
+-- Eliminar tabla si existe (para desarrollo)
+DROP TABLE IF EXISTS pokemon CASCADE;
+
+-- ============================================
+-- TABLA: pokemon
+-- ============================================
+CREATE TABLE pokemon (
+    id SERIAL PRIMARY KEY,
+    numero_pokedex INTEGER UNIQUE NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    tipo_primario VARCHAR(50) NOT NULL,
+    tipo_secundario VARCHAR(50),
+    descripcion TEXT,
+    stats_hp INTEGER CHECK (stats_hp >= 0 AND stats_hp <= 255),
+    stats_ataque INTEGER CHECK (stats_ataque >= 0 AND stats_ataque <= 255),
+    stats_defensa INTEGER CHECK (stats_defensa >= 0 AND stats_defensa <= 255),
+    stats_velocidad INTEGER CHECK (stats_velocidad >= 0 AND stats_velocidad <= 255),
+    imagen_url VARCHAR(255),
+    es_legendario BOOLEAN DEFAULT false,
+    generacion INTEGER CHECK (generacion >= 1 AND generacion <= 9),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================================
+-- ÍNDICES PARA OPTIMIZACIÓN
+-- ============================================
+CREATE INDEX idx_tipo_primario ON pokemon(tipo_primario);
+CREATE INDEX idx_es_legendario ON pokemon(es_legendario);
+CREATE INDEX idx_generacion ON pokemon(generacion);
+CREATE INDEX idx_nombre ON pokemon(nombre);
+
+-- ============================================
+-- FUNCIÓN PARA ACTUALIZAR updated_at
+-- ============================================
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+-- ============================================
+-- TRIGGER PARA ACTUALIZAR updated_at
+-- ============================================
+CREATE TRIGGER update_pokemon_updated_at 
+    BEFORE UPDATE ON pokemon
+    FOR EACH ROW
+    EXECUTE FUNCTION update_updated_at_column();
+
+-- ============================================
+-- MENSAJE DE ÉXITO
+-- ============================================
+\echo '✅ Base de datos pokemon_db inicializada correctamente'
+\echo '✅ Tabla pokemon creada con éxito'
+\echo '✅ Índices y triggers configurados'
