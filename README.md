@@ -1,282 +1,160 @@
-# 🎮 Aplicación Web de Mejores Pokémon
+# Backend - API REST de Pokémon
 
-> Proyecto académico de Infraestructuras con Docker, Kubernetes y Azure Cloud
+API REST desarrollada con Node.js y Express para gestionar información de Pokémon.
 
-Aplicación web full-stack profesional que muestra un catálogo de los mejores Pokémon de todos los tiempos, con arquitectura de microservicios y despliegue en múltiples entornos.
+## 🚀 Tecnologías
 
-## 📋 Características
+- **Node.js** 20+
+- **Express.js** - Framework web
+- **PostgreSQL** - Base de datos
+- **pg** - Cliente PostgreSQL para Node.js
+- **CORS** - Cross-Origin Resource Sharing
+- **Morgan** - HTTP request logger
+- **express-validator** - Validación de datos
 
-✅ **Frontend React** - Interfaz moderna y responsive con Vite
-✅ **Backend Node.js** - API REST completa con Express
-✅ **Base de Datos PostgreSQL** - Almacenamiento persistente
-✅ **API REST Completa** - CRUD + filtros y búsquedas
-✅ **Docker Compose** - Despliegue local con contenedores
-✅ **Kubernetes** - Orquestación y escalabilidad
-✅ **Azure Cloud** - Despliegue en la nube con Load Balancer
-
-## 🏗️ Arquitectura
-
-```
-┌─────────────┐
-│  Frontend   │ → React + Vite (Puerto 3000)
-│  (Nginx)    │
-└──────┬──────┘
-       │
-       ▼
-┌─────────────┐
-│   Backend   │ → Node.js + Express (Puerto 4000)
-│  (API REST) │
-└──────┬──────┘
-       │
-       ▼
-┌─────────────┐
-│  PostgreSQL │ → Base de Datos (Puerto 5432)
-│   Database  │
-└─────────────┘
-```
-
-## 🚀 Inicio Rápido
-
-### Prerrequisitos
-
-- Docker Desktop instalado
-- Node.js 20+ (para desarrollo local)
-- Git
-
-### Opción 1: Docker Compose (Recomendado)
+## 📦 Instalación
 
 ```bash
-# Clonar el repositorio
-cd proyecto-infra
-
-# Construir y levantar todos los servicios
-docker-compose up --build -d
-
-# Ver logs
-docker-compose logs -f
-
-# Acceder a la aplicación
-# Frontend: http://localhost:3000
-# Backend API: http://localhost:4000/api/pokemon
-# PostgreSQL: localhost:5432
-```
-
-### Opción 2: Desarrollo Local
-
-#### Backend
-```bash
-cd backend
+# Instalar dependencias
 npm install
+
+# Copiar variables de entorno
 cp .env.example .env
-# Asegúrate de tener PostgreSQL corriendo
+
+# Editar .env con tus configuraciones
+nano .env
+```
+
+## 🔧 Configuración
+
+Edita el archivo `.env` con tus configuraciones:
+
+```env
+PORT=4000
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=pokemon_db
+DB_USER=postgres
+DB_PASSWORD=pokemon123
+NODE_ENV=development
+```
+
+## 🏃 Ejecución
+
+```bash
+# Modo desarrollo (con nodemon)
+npm run dev
+
+# Modo producción
 npm start
 ```
 
-#### Frontend
-```bash
-cd frontend
-npm install
-npm run dev
-```
+El servidor estará disponible en: `http://localhost:4000`
 
-## 📊 API REST Endpoints
+## 📚 Endpoints API
+
+### Health Check
+- **GET** `/health` - Verificar estado del servidor
+
+### CRUD Pokémon
 
 | Método | Endpoint | Descripción |
 |--------|----------|-------------|
-| GET | `/api/pokemon` | Listar todos los Pokémon |
-| GET | `/api/pokemon/:id` | Obtener un Pokémon |
-| GET | `/api/pokemon/tipo/:tipo` | Filtrar por tipo |
-| GET | `/api/pokemon/legendarios` | Solo legendarios |
+| GET | `/api/pokemon` | Obtener todos los Pokémon |
+| GET | `/api/pokemon/:id` | Obtener un Pokémon por ID |
 | POST | `/api/pokemon` | Crear nuevo Pokémon |
 | PUT | `/api/pokemon/:id` | Actualizar Pokémon |
 | DELETE | `/api/pokemon/:id` | Eliminar Pokémon |
 
-## 🎯 Funcionalidades
+### Filtros y Búsqueda
 
-### Frontend
-- ✅ Catálogo visual de Pokémon con tarjetas
-- ✅ Filtros por tipo y legendario
-- ✅ Búsqueda en tiempo real
-- ✅ Formulario para crear/editar Pokémon
-- ✅ Visualización de estadísticas (HP, ATK, DEF, SPD)
-- ✅ Diseño responsive y profesional
-- ✅ Animaciones fluidas
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| GET | `/api/pokemon/tipo/:tipo` | Filtrar por tipo |
+| GET | `/api/pokemon/legendarios` | Solo legendarios |
+| GET | `/api/pokemon/search?nombre=pikachu` | Buscar por nombre |
 
-### Backend
-- ✅ API REST completa con Express
-- ✅ Validación de datos
-- ✅ Manejo de errores robusto
-- ✅ CORS configurado
-- ✅ Logging con Morgan
-- ✅ Health checks
+## 📝 Ejemplos de Uso
 
-### Base de Datos
-- ✅ PostgreSQL 16
-- ✅ Esquema normalizado
-- ✅ Datos seed con 30 Pokémon top
-- ✅ Índices optimizados
+### Obtener todos los Pokémon
+```bash
+curl http://localhost:4000/api/pokemon
+```
+
+### Crear un Pokémon
+```bash
+curl -X POST http://localhost:4000/api/pokemon \
+  -H "Content-Type: application/json" \
+  -d '{
+    "numero_pokedex": 151,
+    "nombre": "Mew",
+    "tipo_primario": "Psíquico",
+    "descripcion": "Un Pokémon legendario muy raro",
+    "stats_hp": 100,
+    "stats_ataque": 100,
+    "stats_defensa": 100,
+    "stats_velocidad": 100,
+    "es_legendario": true,
+    "generacion": 1
+  }'
+```
+
+### Actualizar un Pokémon
+```bash
+curl -X PUT http://localhost:4000/api/pokemon/1 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "numero_pokedex": 6,
+    "nombre": "Charizard Mejorado",
+    "tipo_primario": "Fuego",
+    "tipo_secundario": "Volador"
+  }'
+```
+
+### Eliminar un Pokémon
+```bash
+curl -X DELETE http://localhost:4000/api/pokemon/1
+```
 
 ## 🐳 Docker
 
-### Construir imágenes individuales
-
 ```bash
-# Backend
-docker build -t pokemon-backend ./backend
+# Construir imagen
+docker build -t pokemon-backend .
 
-# Frontend
-docker build -t pokemon-frontend ./frontend
+# Ejecutar contenedor
+docker run -p 4000:4000 --env-file .env pokemon-backend
 ```
 
-### Comandos útiles
-
-```bash
-# Detener servicios
-docker-compose down
-
-# Detener y eliminar volúmenes (¡datos se perderán!)
-docker-compose down -v
-
-# Reconstruir un servicio específico
-docker-compose up --build backend
-
-# Ver estado de contenedores
-docker-compose ps
-
-# Acceder a shell de PostgreSQL
-docker-compose exec db psql -U postgres -d pokemon_db
-```
-
-## ☸️ Kubernetes
-
-Ver documentación detallada en `/kubernetes/README.md`
-
-```bash
-# Aplicar todos los manifiestos
-kubectl apply -f kubernetes/
-
-# Ver estado
-kubectl get all -n pokemon-app
-
-# Escalar backend
-kubectl scale deployment backend --replicas=3 -n pokemon-app
-
-# Port forward para acceso local
-kubectl port-forward service/frontend 3000:80 -n pokemon-app
-```
-
-## ☁️ Azure Cloud
-
-Ver documentación detallada en `/azure/README.md`
-
-### Recursos necesarios:
-- Azure Kubernetes Service (AKS)
-- Azure Database for PostgreSQL
-- Azure Container Registry (ACR)
-- Azure Load Balancer
-
-## 🗂️ Estructura del Proyecto
+## 📁 Estructura del Proyecto
 
 ```
-proyecto-infra/
-├── backend/              # API REST Node.js
-│   ├── src/
-│   │   ├── config/      # Configuración DB
-│   │   ├── controllers/ # Lógica de negocio
-│   │   ├── models/      # Modelos de datos
-│   │   ├── routes/      # Definición de rutas
-│   │   └── server.js    # Punto de entrada
-│   ├── Dockerfile
-│   └── package.json
-├── frontend/             # Aplicación React
-│   ├── src/
-│   │   ├── components/  # Componentes UI
-│   │   ├── services/    # Cliente API
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   ├── Dockerfile
-│   └── package.json
-├── database/             # Scripts SQL
-│   ├── init.sql         # Esquema DB
-│   └── seed.sql         # Datos iniciales
-├── kubernetes/           # Manifiestos K8s
-├── azure/               # Scripts Azure
-├── docs/                # Documentación
-├── docker-compose.yml   # Orquestación local
+backend/
+├── src/
+│   ├── config/
+│   │   └── database.js       # Configuración PostgreSQL
+│   ├── controllers/
+│   │   └── pokemonController.js
+│   ├── models/
+│   │   └── pokemonModel.js
+│   ├── routes/
+│   │   └── pokemonRoutes.js
+│   └── server.js             # Punto de entrada
+├── .env.example
+├── .gitignore
+├── package.json
 └── README.md
 ```
 
 ## 🧪 Testing
 
-### Probar API con curl
-
 ```bash
-# Listar Pokémon
-curl http://localhost:4000/api/pokemon
+# Probar con curl
+curl http://localhost:4000/health
 
-# Obtener un Pokémon
-curl http://localhost:4000/api/pokemon/1
-
-# Crear Pokémon
-curl -X POST http://localhost:4000/api/pokemon \
-  -H "Content-Type: application/json" \
-  -d '{
-    "numero_pokedex": 999,
-    "nombre": "Test Pokemon",
-    "tipo_primario": "Fuego",
-    "descripcion": "Pokemon de prueba",
-    "stats_hp": 100,
-    "stats_ataque": 100,
-    "stats_defensa": 100,
-    "stats_velocidad": 100,
-    "generacion": 1
-  }'
+# O usar Postman, Thunder Client, Insomnia, etc.
 ```
-
-## 🛠️ Tecnologías Utilizadas
-
-### Frontend
-- React 18
-- Vite
-- Axios
-- CSS3 (Animaciones y Grid)
-
-### Backend
-- Node.js 20
-- Express.js
-- PostgreSQL (pg driver)
-- CORS
-- Morgan (logging)
-
-### DevOps
-- Docker & Docker Compose
-- Kubernetes
-- Azure (AKS, ACR, PostgreSQL)
-- Nginx (servidor web)
-
-## 📈 Próximos Pasos
-
-1. ✅ Configurar CI/CD con GitHub Actions
-2. ✅ Implementar autenticación JWT
-3. ✅ Agregar tests unitarios y de integración
-4. ✅ Implementar caché con Redis
-5. ✅ Monitoreo con Prometheus/Grafana
-
-## 📝 Documentación Adicional
-
-- [Plan del Proyecto](./PLAN_PROYECTO.md) - Plan detallado de desarrollo
-- [Proyecto Original](./docs/proyecto.md) - Requisitos académicos
-- [Kubernetes Setup](./kubernetes/README.md) - Guía de K8s
-- [Azure Deployment](./azure/README.md) - Despliegue en Azure
-
-## 👥 Autor
-
-Proyecto académico - Curso de Infraestructuras con Docker, Kubernetes y Cloud
 
 ## 📄 Licencia
 
-Este proyecto es de uso académico.
-
----
-
-**¡Disfruta capturando y explorando Pokémon!** 🎮⚡🔥
+MIT
